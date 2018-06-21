@@ -1,1 +1,1 @@
-# Multi_Robot_Window_cleaner
+roslaunch multiple_robots_stage robots_in_stage.launch
