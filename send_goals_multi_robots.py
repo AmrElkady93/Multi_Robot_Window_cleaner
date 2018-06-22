@@ -63,7 +63,7 @@ def move_robots(robot_no, start_x, start_y, end_x, end_y):
                         rospy.loginfo("Goal execution done!")
                 x = x - 0.4
             y = y + 0.4
-#amr da tneyn 
+	
 if __name__ == '__main__':
     try:
 	   try:
