@@ -4,12 +4,15 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
-        - /Robot 01
-        - /Robot 01/Local Planning1
-        - /Robot 01/Global Planning1
-        - /Robot 11
-        - /Robot 11/Local Planning1
-        - /Robot 11/Global Planning1
+        - /Robot 001
+        - /Robot 001/Local Planning1
+        - /Robot 001/Global Planning1
+        - /Robot 011
+        - /Robot 011/Local Planning1
+        - /Robot 011/Global Planning1
+        - /Robot 111
+        - /Robot 111/Local Planning1
+        - /Robot 111/Global Planning1
       Splitter Ratio: 0.632829
     Tree Height: 543
   - Class: rviz/Selection
@@ -19,6 +22,7 @@ Panels:
       - /2D Pose Estimate1
       - /2D Nav Goal1
       - /2D Nav Goal2
+      - /2D Nav Goal3
     Name: Tool Properties
     Splitter Ratio: 0.588679
   - Class: rviz/Views
@@ -789,6 +793,371 @@ Visualization Manager:
           Value: true
       Enabled: true
       Name: Robot 1
+    - Class: rviz/Group
+      Displays:
+        - Class: rviz/Group
+          Displays:
+            - Alpha: 0.7
+              Class: rviz/Map
+              Color Scheme: costmap
+              Draw Behind: false
+              Enabled: false
+              Name: Costmap
+              Topic: /robot_2/move_base_node/local_costmap/costmap
+              Unreliable: false
+              Value: false
+            - Alpha: 1
+              Buffer Length: 1
+              Class: rviz/Path
+              Color: 0; 12; 255
+              Enabled: true
+              Head Diameter: 0.3
+              Head Length: 0.2
+              Length: 0.3
+              Line Style: Lines
+              Line Width: 0.03
+              Name: Planner
+              Offset:
+                X: 0
+                Y: 0
+                Z: 0
+              Pose Color: 255; 85; 255
+              Pose Style: None
+              Radius: 0.03
+              Shaft Diameter: 0.1
+              Shaft Length: 0.1
+              Topic: /robot_2/move_base_node/TrajectoryPlannerROS/local_plan
+              Unreliable: false
+              Value: true
+            - Alpha: 0.3
+              Autocompute Intensity Bounds: true
+              Autocompute Value Bounds:
+                Max Value: 10
+                Min Value: -10
+                Value: true
+              Axis: Z
+              Channel Name: total_cost
+              Class: rviz/PointCloud2
+              Color: 255; 255; 255
+              Color Transformer: Intensity
+              Decay Time: 0
+              Enabled: true
+              Invert Rainbow: false
+              Max Color: 255; 255; 255
+              Max Intensity: 11.935
+              Min Color: 0; 0; 0
+              Min Intensity: 0.42
+              Name: Cost Cloud
+              Position Transformer: XYZ
+              Queue Size: 10
+              Selectable: true
+              Size (Pixels): 1
+              Size (m): 0.04
+              Style: Points
+              Topic: /robot_2/move_base_node/TrajectoryPlannerROS/cost_cloud
+              Unreliable: false
+              Use Fixed Frame: true
+              Use rainbow: true
+              Value: true
+          Enabled: true
+          Name: Local Planning
+        - Class: rviz/Group
+          Displays:
+            - Alpha: 0.4
+              Class: rviz/Map
+              Color Scheme: costmap
+              Draw Behind: true
+              Enabled: true
+              Name: Costmap
+              Topic: /robot_2/move_base_node/global_costmap/costmap
+              Unreliable: false
+              Value: true
+            - Alpha: 1
+              Buffer Length: 1
+              Class: rviz/Path
+              Color: 255; 0; 0
+              Enabled: true
+              Head Diameter: 0.3
+              Head Length: 0.2
+              Length: 0.3
+              Line Style: Lines
+              Line Width: 0.03
+              Name: Planner
+              Offset:
+                X: 0
+                Y: 0
+                Z: 0
+              Pose Color: 255; 85; 255
+              Pose Style: None
+              Radius: 0.03
+              Shaft Diameter: 0.1
+              Shaft Length: 0.1
+              Topic: /robot_2/move_base_node/TrajectoryPlannerROS/global_plan
+              Unreliable: false
+              Value: true
+          Enabled: true
+          Name: Global Planning
+        - Alpha: 1
+          Class: rviz/RobotModel
+          Collision Enabled: false
+          Enabled: true
+          Links:
+            All Links Enabled: true
+            Expand Joint Details: false
+            Expand Link Details: false
+            Expand Tree: false
+            Link Tree Style: Links in Alphabetic Order
+            base_footprint:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+            base_link:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+              Value: true
+            camera_depth_frame:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+            camera_depth_optical_frame:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+            camera_link:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+              Value: true
+            camera_rgb_frame:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+            camera_rgb_optical_frame:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+            caster_back_link:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+              Value: true
+            caster_front_link:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+              Value: true
+            cliff_sensor_front_link:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+            cliff_sensor_left_link:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+            cliff_sensor_right_link:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+            gyro_link:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+            mount_asus_xtion_pro_link:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+              Value: true
+            plate_bottom_link:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+              Value: true
+            plate_middle_link:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+              Value: true
+            plate_top_link:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+              Value: true
+            pole_bottom_0_link:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+              Value: true
+            pole_bottom_1_link:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+              Value: true
+            pole_bottom_2_link:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+              Value: true
+            pole_bottom_3_link:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+              Value: true
+            pole_bottom_4_link:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+              Value: true
+            pole_bottom_5_link:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+              Value: true
+            pole_kinect_0_link:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+              Value: true
+            pole_kinect_1_link:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+              Value: true
+            pole_middle_0_link:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+              Value: true
+            pole_middle_1_link:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+              Value: true
+            pole_middle_2_link:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+              Value: true
+            pole_middle_3_link:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+              Value: true
+            pole_top_0_link:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+              Value: true
+            pole_top_1_link:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+              Value: true
+            pole_top_2_link:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+              Value: true
+            pole_top_3_link:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+              Value: true
+            wheel_left_link:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+              Value: true
+            wheel_right_link:
+              Alpha: 1
+              Show Axes: false
+              Show Trail: false
+              Value: true
+          Name: RobotModel
+          Robot Description: /robot_2/robot_description
+          TF Prefix: robot_2
+          Update Interval: 0
+          Value: true
+          Visual Enabled: true
+        - Alpha: 1
+          Autocompute Intensity Bounds: true
+          Autocompute Value Bounds:
+            Max Value: 10
+            Min Value: -10
+            Value: true
+          Axis: Z
+          Channel Name: intensity
+          Class: rviz/LaserScan
+          Color: 255; 255; 255
+          Color Transformer: Intensity
+          Decay Time: 0
+          Enabled: true
+          Invert Rainbow: false
+          Max Color: 255; 255; 255
+          Max Intensity: 1
+          Min Color: 0; 0; 0
+          Min Intensity: 1
+          Name: LaserScan (kinect)
+          Position Transformer: XYZ
+          Queue Size: 10
+          Selectable: true
+          Size (Pixels): 2
+          Size (m): 0.01
+          Style: Points
+          Topic: /robot_2/base_scan
+          Unreliable: false
+          Use Fixed Frame: true
+          Use rainbow: true
+          Value: true
+        - Alpha: 1
+          Axes Length: 1
+          Axes Radius: 0.1
+          Class: rviz/Pose
+          Color: 255; 25; 0
+          Enabled: true
+          Head Length: 0.2
+          Head Radius: 0.1
+          Name: Pose (move_base)
+          Shaft Length: 1
+          Shaft Radius: 0.05
+          Shape: Arrow
+          Topic: /robot_2/move_base_node/current_goal
+          Unreliable: false
+          Value: true
+        - Arrow Length: 0.2
+          Class: rviz/PoseArray
+          Color: 0; 192; 0
+          Enabled: true
+          Name: ParticleCloud
+          Topic: /robot_2/particlecloud
+          Unreliable: false
+          Value: true
+        - Alpha: 1
+          Buffer Length: 1
+          Class: rviz/Path
+          Color: 25; 255; 0
+          Enabled: true
+          Head Diameter: 0.3
+          Head Length: 0.2
+          Length: 0.3
+          Line Style: Lines
+          Line Width: 0.03
+          Name: Path (global)
+          Offset:
+            X: 0
+            Y: 0
+            Z: 0
+          Pose Color: 255; 85; 255
+          Pose Style: None
+          Radius: 0.03
+          Shaft Diameter: 0.1
+          Shaft Length: 0.1
+          Topic: /robot_2/move_base_node/NavfnROS/plan
+          Unreliable: false
+          Value: true
+      Enabled: true
+      Name: Robot 2
+
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -806,6 +1175,8 @@ Visualization Manager:
       Topic: /robot_0/move_base_simple/goal
     - Class: rviz/SetGoal
       Topic: /robot_1/move_base_simple/goal
+    - Class: rviz/SetGoal
+      Topic: /robot_2/move_base_simple/goal
     - Class: rviz/Measure
   Value: true
   Views:

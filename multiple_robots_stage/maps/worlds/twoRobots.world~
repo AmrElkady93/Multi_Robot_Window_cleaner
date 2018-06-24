@@ -52,6 +52,12 @@ turtlebot
   color "green"
 )
 
+turtlebot
+(
+  pose [ 2.0 2.0 0.0 0.0 ]
+  name "turtlebot3"
+  color "blue"
+)
 
 
 
