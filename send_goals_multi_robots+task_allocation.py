@@ -143,12 +143,6 @@ if __name__ == '__main__':
 	   try:
         	# Initializes a rospy node to let the SimpleActionClient publish and subscribe
         	rospy.init_node('movebase_client_py')
-        	print('hello world')
-        	print(regions)
-        	print(regions[1].start_x)
-        	print(regions[1].start_y)
-        	print(regions[1].end_x)
-        	print(regions[1].end_y)
         	allRegionsAreClean = False
         	while(not allRegionsAreClean):
         		allRegionsAreClean = True
