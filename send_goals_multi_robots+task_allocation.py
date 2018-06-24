@@ -16,14 +16,12 @@ class robot:
     number = -1
     x = 0
     y = 0
-    region = None
 
-    def __init__(self, state, number, x, y, region):
+    def __init__(self, state, number, x, y):
         self.state = state
         self.number = number
         self.x = x
         self.y = y
-        self.region = region
 
 class region:
 #region state can be: dirty, clean or busy
@@ -43,14 +41,15 @@ class region:
         self.end_y = end_y
 
 obstacles_x = [1.80, 1.80, 5.70, 5.70]	
-obstacles_y = [2.50, 5.80, 2.50, 5.80]
+obstacles_y = [2.50, 5.81, 2.50, 5.81]
 
 regions = []
+robots = []
 
-def movebase_robot(x, y,w,z,robot_no):
+def movebase_robot(x, y, w, z, robot_no):
 
-    robot_1 = actionlib.SimpleActionClient('robot_'+robot_no+'/move_base',MoveBaseAction)
-    robot_1.wait_for_server()
+    robot = actionlib.SimpleActionClient('robot_'+str(robots[robot_no].number)+'/move_base',MoveBaseAction)
+    robot.wait_for_server()
 
     goal = MoveBaseGoal()
     goal.target_pose.header.frame_id = "map"
@@ -60,46 +59,52 @@ def movebase_robot(x, y,w,z,robot_no):
     goal.target_pose.pose.orientation.w = w
     goal.target_pose.pose.orientation.z = z
 
-    robot_1.send_goal(goal)
-    wait = robot_1.wait_for_result()
+    robots[robot_no].x = x
+    robots[robot_no].y = y
+
+    robot.send_goal(goal)
+    wait = robot.wait_for_result()
     if not wait:
         rospy.logerr("Action server not available!")
         rospy.signal_shutdown("Action server not available!")
     else:
-        return robot_1.get_result()
+        return robot.get_result()
 
 #to move multi robot to specific points in same time 
-def move_robots(robot_no, start_x, start_y, end_x, end_y):
-        x = start_x
-        y = start_y
+def move_robots(robot_no, region_no):
+        x = regions[region_no].start_x
+        y = regions[region_no].start_y
 
-        for i in range(12):
-            for j in range(25):
+        while(y <= regions[region_no].end_y):
+            while(x <= regions[region_no].end_x):
 		isObstacle = False
 		for k in range(4):
 			if x - obstacles_x[k] >= 0 and x - obstacles_x[k] <= 2.5 and y - obstacles_y[k] >= 0 and y - obstacles_y[k] <= 2.5 :
 				isObstacle = True
 				break
-                if x >= start_x and x <= end_x and y >= start_y and y <= end_y and (not isObstacle):
-                    result = movebase_robot(x, y, 1.0, 0.0, str(robot_no))
+                if x >= regions[region_no].start_x and x <= regions[region_no].end_x and y >= regions[region_no].start_y and y <= regions[region_no].end_y and (not isObstacle):
+                    result = movebase_robot(x, y, 1.0, 0.0, robot_no)
 		    print (x,y)
                     if result:
                         rospy.loginfo("Goal execution done!")
                 x = x+0.4
             y = y+0.4
-            for j in range(25):
+            while(x >= regions[region_no].start_x):
 		isObstacle = False
 		for k in range(4):
 			if x - obstacles_x[k] >= 0 and x - obstacles_x[k] <= 2.5 and y - obstacles_y[k] >= 0 and y - obstacles_y[k] <= 2.5 :
 				isObstacle = True
 				break
-                if x >= start_x and x <= end_x and y >= start_y and y <= end_y and (not isObstacle):
-                    result =movebase_robot(x, y, 0.0, 1.0, str(robot_no))
+                if x >= regions[region_no].start_x and x <= regions[region_no].end_x and y >= regions[region_no].start_y and y <= regions[region_no].end_y and (not isObstacle):
+                    result =movebase_robot(x, y, 0.0, 1.0, robot_no)
                     print (x,y)
                     if result:
                         rospy.loginfo("Goal execution done!")
                 x = x - 0.4
             y = y + 0.4
+        robots[robot_no].state = 'free'
+        regions[region_no].state = 'clean'
+        print('robot_no', robot_no, ' execution done! at ( ', x, ', ', y, ' )')
 
 def split_map():
     new = region('dirty', 0, 0.9, 0.9, 9.34, obstacles_y[0])
@@ -123,6 +128,12 @@ def split_map():
 
 if __name__ == '__main__':
     split_map()
+    new = robot('free', 0, 2.0, 1.0)
+    robots.append(new)
+    new = robot('free', 1, 2.0, 2.0)
+    robots.append(new)
+    new = robot('free', 2, 3.0, 2.0)
+    robots.append(new)
     try:
 	   try:
         	# Initializes a rospy node to let the SimpleActionClient publish and subscribe
@@ -133,15 +144,21 @@ if __name__ == '__main__':
         	print(regions[1].start_y)
         	print(regions[1].end_x)
         	print(regions[1].end_y)
-        	thread.start_new_thread( move_robots, (1, regions[0].start_x, regions[0].start_y, regions[0].end_x, regions[0].end_y, ) )
-        	thread.start_new_thread( move_robots, (0, regions[1].start_x, regions[1].start_y, regions[1].end_x, regions[1].end_y, ) )
-        	thread.start_new_thread( move_robots, (2, regions[2].start_x, regions[2].start_y, regions[2].end_x, regions[2].end_y, ) )
+        	allRegionsAreClean = False
+        	while(not allRegionsAreClean):
+        		allRegionsAreClean = True
+        		for i in range(len(regions)):
+        			if(regions[i].state == 'dirty'):
+        				allRegionsAreClean = False
+        				for j in range(len(robots)):
+        					if(robots[j].state == 'free'):
+        						robots[j].state = 'busy'
+        						regions[i].state = 'busy'
+        						thread.start_new_thread( move_robots, (robots[j].number, regions[i].number, ) )
+        						break
 
 	   except rospy.ROSInterruptException:
         	rospy.loginfo("Navigation test finished.")
 
     except:
 	   print "Error: unable to start thread"
-
-    while 1:
-	   pass
