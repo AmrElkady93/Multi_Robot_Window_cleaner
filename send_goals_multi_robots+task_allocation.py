@@ -7,6 +7,7 @@ import rospy
 import actionlib
 #import robot
 #import region
+import math
 from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
 
 
@@ -126,6 +127,10 @@ def split_map():
     new = region('dirty', 8, obstacles_x[2]+2.5, obstacles_y[1], 9.34, obstacles_y[1]+2.5)
     regions.append(new)
 
+def directDistance(robot, region):
+    return math.sqrt( (robot.x - region.start_x)**2 + (robot.y - region.start_y)**2 )
+
+
 if __name__ == '__main__':
     split_map()
     new = robot('free', 0, 2.0, 1.0)
@@ -150,12 +155,20 @@ if __name__ == '__main__':
         		for i in range(len(regions)):
         			if(regions[i].state == 'dirty'):
         				allRegionsAreClean = False
-        				for j in range(len(robots)):
-        					if(robots[j].state == 'free'):
-        						robots[j].state = 'busy'
-        						regions[i].state = 'busy'
-        						thread.start_new_thread( move_robots, (robots[j].number, regions[i].number, ) )
-        						break
+        		for j in range(len(robots)):
+        			if(robots[j].state == 'free'):
+        				nearestRegion = -1
+        				minDis = 10000.0
+        				for i in range(len(regions)):
+        					if(regions[i].state == 'dirty'):
+        						dis = directDistance(robots[j], regions[i])
+        						if(dis < minDis ):
+        							minDis = dis
+        							nearestRegion = i
+        				if(nearestRegion != -1):
+        					robots[j].state = 'busy'
+        					regions[nearestRegion].state = 'busy'
+        					thread.start_new_thread( move_robots, (robots[j].number, regions[nearestRegion].number, ) )
 
 	   except rospy.ROSInterruptException:
         	rospy.loginfo("Navigation test finished.")
