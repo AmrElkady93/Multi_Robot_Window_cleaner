@@ -162,3 +162,6 @@ if __name__ == '__main__':
 
     except:
 	   print "Error: unable to start thread"
+
+    while 1:
+	   pass
