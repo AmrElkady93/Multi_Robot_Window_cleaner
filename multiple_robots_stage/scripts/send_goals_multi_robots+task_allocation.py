@@ -171,10 +171,10 @@ if __name__ == '__main__':
         					regions[nearestRegion].state = 'busy'
         					thread.start_new_thread(move_robots, (robots[j].number, regions[nearestRegion].number, ) )
         				else:
-        					thread.start_new_thread(movebase_robot,(2.0+2.5*robot_no, 2.5, 1.0, 0.0, robot_no, ) )
+        					thread.start_new_thread(movebase_robot,(2.0+2.5*j, 2.5, 1.0, 0.0, j, ) )
 	   	for i in range(len(regions)):
 	   		print(regions[i].state)
-	   	for i in range(len(robots)):
+	   	for robot_no in range(len(robots)):
 	   		movebase_robot(2.0+2.5*robot_no, 2.5, 1.0, 0.0, robot_no)
 	   except rospy.ROSInterruptException:
         	rospy.loginfo("Navigation test finished.")
