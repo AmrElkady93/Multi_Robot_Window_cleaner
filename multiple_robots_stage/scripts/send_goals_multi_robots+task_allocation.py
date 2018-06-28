@@ -44,7 +44,7 @@ class region:
 obstacles_x = [1.78, 1.78, 5.65, 5.65]	
 obstacles_y = [2.50, 5.81, 2.50, 5.81]
 
-ob_len = 2.3
+ob_len = 2.1
 hor_step = 0.3
 ver_step = 0.35
 
@@ -124,7 +124,7 @@ def split_map():
     regions.append(new)
     new = region('dirty', 5, obstacles_x[2]+ob_len, obstacles_y[0], 9.34, obstacles_y[0]+ob_len)
     regions.append(new)
-    new = region('dirty', 6, 0.8, obstacles_y[1], obstacles_x[0], obstacles_y[1]+ob_len)
+    new = region('dirty', 6, 0.7, obstacles_y[1], obstacles_x[0], obstacles_y[1]+ob_len)
     regions.append(new)
     new = region('dirty', 7, obstacles_x[0]+ob_len, obstacles_y[1], obstacles_x[2], obstacles_y[1]+ob_len)
     regions.append(new)
