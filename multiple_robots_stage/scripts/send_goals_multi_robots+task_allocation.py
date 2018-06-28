@@ -171,7 +171,7 @@ if __name__ == '__main__':
         					regions[nearestRegion].state = 'busy'
         					thread.start_new_thread(move_robots, (robots[j].number, regions[nearestRegion].number, ) )
         				else:
-        					movebase_robot(2.0+2.5*robot_no, 2.5, 1.0, 0.0, robot_no)
+        					thread.start_new_thread(movebase_robot,(2.0+2.5*robot_no, 2.5, 1.0, 0.0, robot_no, ) )
 	   	for i in range(len(regions)):
 	   		print(regions[i].state)
 	   	for i in range(len(robots)):
