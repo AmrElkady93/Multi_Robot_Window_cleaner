@@ -40,21 +40,21 @@ floorplan
 # throw in a robot
 turtlebot
 (
-  pose [ 0.0 0.0 0.0 0.0 ]
-  name "turtlebot"
+  pose [ 2.0 1.0 0.0 0.0 ]
+  name "turtlebot1"
   color "black"
 )
 
 turtlebot
 (
-  pose [ 1.0 1.0 0.0 0.0 ]
+  pose [ 4.5 1.0 0.0 0.0 ]
   name "turtlebot2"
   color "green"
 )
 
 turtlebot
 (
-  pose [ 2.0 2.0 0.0 0.0 ]
+  pose [ 7.0 2.0 0.0 0.0 ]
   name "turtlebot3"
   color "blue"
 )

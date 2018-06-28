@@ -41,11 +41,14 @@ class region:
         self.end_x = end_x
         self.end_y = end_y
 
-obstacles_x = [1.75, 1.75, 5.65, 5.65]	
-obstacles_y = [2.50, 5.81, 2.50, 5.81]
+obstacles_x = [1.73, 1.73, 5.58, 5.58]	
+obstacles_y = [2.6, 5.9, 2.6, 5.9]
 
-ob_len = 2.3
-hor_step = 0.3
+begin_param = 0.7
+end_param = 9.29
+
+ob_len = 2.46
+hor_step = 0.8
 ver_step = 0.35
 
 regions = []
@@ -82,53 +85,53 @@ def move_robots(robot_no, region_no):
 
         while(y <= regions[region_no].end_y):
             while(x <= regions[region_no].end_x):
-		isObstacle = False
-		for k in range(4):
-			if x - obstacles_x[k] >= 0 and x - obstacles_x[k] <= ob_len and y - obstacles_y[k] >= 0 and y - obstacles_y[k] <= ob_len :
-				isObstacle = True
-				break
-                if x >= regions[region_no].start_x and x <= regions[region_no].end_x and y >= regions[region_no].start_y and y <= regions[region_no].end_y and (not isObstacle):
+                if x >= regions[region_no].start_x and x <= regions[region_no].end_x and y >= regions[region_no].start_y and y <= regions[region_no].end_y:
                     result = movebase_robot(x, y, 1.0, 0.0, robot_no)
 		    print (x,y)
                     if result:
                         rospy.loginfo("Goal execution done!")
                 x = x+hor_step
+            x = regions[region_no].end_x
+            result = movebase_robot(x, y, 1.0, 0.0, robot_no)
+            print (x,y)
+            if result:
+            	rospy.loginfo("Goal execution done!")
             y = y+ver_step
             while(x >= regions[region_no].start_x):
-		isObstacle = False
-		for k in range(4):
-			if x - obstacles_x[k] >= 0 and x - obstacles_x[k] <= ob_len and y - obstacles_y[k] >= 0 and y - obstacles_y[k] <= ob_len :
-				isObstacle = True
-				break
-                if x >= regions[region_no].start_x and x <= regions[region_no].end_x and y >= regions[region_no].start_y and y <= regions[region_no].end_y and (not isObstacle):
+                if x >= regions[region_no].start_x and x <= regions[region_no].end_x and y >= regions[region_no].start_y and y <= regions[region_no].end_y:
                     result =movebase_robot(x, y, 0.0, 1.0, robot_no)
                     print (x,y)
                     if result:
                         rospy.loginfo("Goal execution done!")
                 x = x - hor_step
+            x = regions[region_no].start_x
+            result = movebase_robot(x, y, 0.0, 1.0, robot_no)
+            print (x,y)
+            if result:
+            	rospy.loginfo("Goal execution done!")
             y = y + ver_step
         robots[robot_no].state = 'free'
         regions[region_no].state = 'clean'
         print('robot_no', robot_no, ' execution done! at ( ', x, ', ', y, ' )')
 
 def split_map():
-    new = region('dirty', 0, 0.7, 0.7, 9.34, obstacles_y[0])
+    new = region('dirty', 0, begin_param, begin_param, end_param, obstacles_y[0])
     regions.append(new)
-    new = region('dirty', 1, 0.7, obstacles_y[0]+ob_len, 9.34, obstacles_y[1])
+    new = region('dirty', 1, begin_param, obstacles_y[0]+ob_len, end_param, obstacles_y[1])
     regions.append(new)
-    new = region('dirty', 2, 0.7, obstacles_y[1]+ob_len, 9.34, 9.34)
+    new = region('dirty', 2, begin_param, obstacles_y[1]+ob_len, end_param, end_param)
     regions.append(new)
-    new = region('dirty', 3, 0.7, obstacles_y[0], obstacles_x[0], obstacles_y[0]+ob_len)
+    new = region('dirty', 3, begin_param, obstacles_y[0], obstacles_x[0], obstacles_y[0]+ob_len)
     regions.append(new)
     new = region('dirty', 4, obstacles_x[0]+ob_len, obstacles_y[0], obstacles_x[2], obstacles_y[0]+ob_len)
     regions.append(new)
-    new = region('dirty', 5, obstacles_x[2]+ob_len, obstacles_y[0], 9.34, obstacles_y[0]+ob_len)
+    new = region('dirty', 5, obstacles_x[2]+ob_len, obstacles_y[0], end_param, obstacles_y[0]+ob_len)
     regions.append(new)
-    new = region('dirty', 6, 0.8, obstacles_y[1], obstacles_x[0], obstacles_y[1]+ob_len)
+    new = region('dirty', 6, begin_param, obstacles_y[1], obstacles_x[0], obstacles_y[1]+ob_len)
     regions.append(new)
     new = region('dirty', 7, obstacles_x[0]+ob_len, obstacles_y[1], obstacles_x[2], obstacles_y[1]+ob_len)
     regions.append(new)
-    new = region('dirty', 8, obstacles_x[2]+ob_len, obstacles_y[1], 9.34, obstacles_y[1]+ob_len)
+    new = region('dirty', 8, obstacles_x[2]+ob_len, obstacles_y[1], end_param, obstacles_y[1]+ob_len)
     regions.append(new)
 
 def directDistance(robot, region):
@@ -139,9 +142,9 @@ if __name__ == '__main__':
     split_map()
     new = robot('free', 0, 2.0, 1.0)
     robots.append(new)
-    new = robot('free', 1, 2.0, 2.0)
+    new = robot('free', 1, 4.5, 1.0)
     robots.append(new)
-    new = robot('free', 2, 3.0, 2.0)
+    new = robot('free', 2, 7.0, 1.0)
     robots.append(new)
     try:
 	   try:
@@ -166,11 +169,13 @@ if __name__ == '__main__':
         				if(nearestRegion != -1):
         					robots[j].state = 'busy'
         					regions[nearestRegion].state = 'busy'
-        					thread.start_new_thread( move_robots, (robots[j].number, regions[nearestRegion].number, ) )
+        					thread.start_new_thread(move_robots, (robots[j].number, regions[nearestRegion].number, ) )
         				else:
         					movebase_robot(1.0*robot_no, 1.0, 1.0, 0.0, robot_no)
 	   	for i in range(len(regions)):
 	   		print(regions[i].state)
+	   	for i in range(len(robots)):
+	   		movebase_robot(2.0+2.5*robot_no, 2.5, 1.0, 0.0, robot_no)
 	   except rospy.ROSInterruptException:
         	rospy.loginfo("Navigation test finished.")
 
