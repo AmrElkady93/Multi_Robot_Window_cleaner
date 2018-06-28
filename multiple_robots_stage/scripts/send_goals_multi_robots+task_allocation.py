@@ -45,7 +45,7 @@ obstacles_x = [1.8, 1.8, 5.7, 5.7]
 obstacles_y = [2.50, 5.81, 2.50, 5.81]
 
 ob_len = 2.3
-hor_step = 0.1
+hor_step = 0.6
 ver_step = 0.35
 
 regions = []
@@ -84,7 +84,7 @@ def move_robots(robot_no, region_no):
             while(x <= regions[region_no].end_x):
 		isObstacle = False
 		for k in range(4):
-			if x - obstacles_x[k] >= 0 and x - obstacles_x[k] <= ob_len and y - obstacles_y[k] >= 0 and y - obstacles_y[k] <= ob_len :
+			if x - obstacles_x[k] > 0 and x - obstacles_x[k] < ob_len and y - obstacles_y[k] > 0 and y - obstacles_y[k] < ob_len :
 				isObstacle = True
 				break
                 if x >= regions[region_no].start_x and x <= regions[region_no].end_x and y >= regions[region_no].start_y and y <= regions[region_no].end_y and (not isObstacle):
@@ -93,11 +93,16 @@ def move_robots(robot_no, region_no):
                     if result:
                         rospy.loginfo("Goal execution done!")
                 x = x+hor_step
+            x = regions[region_no].end_x
+            result = movebase_robot(x, y, 1.0, 0.0, robot_no)
+            print (x,y)
+            if result:
+            	rospy.loginfo("Goal execution done!")
             y = y+ver_step
             while(x >= regions[region_no].start_x):
 		isObstacle = False
 		for k in range(4):
-			if x - obstacles_x[k] >= 0 and x - obstacles_x[k] <= ob_len and y - obstacles_y[k] >= 0 and y - obstacles_y[k] <= ob_len :
+			if x - obstacles_x[k] > 0 and x - obstacles_x[k] < ob_len and y - obstacles_y[k] > 0 and y - obstacles_y[k] < ob_len :
 				isObstacle = True
 				break
                 if x >= regions[region_no].start_x and x <= regions[region_no].end_x and y >= regions[region_no].start_y and y <= regions[region_no].end_y and (not isObstacle):
@@ -106,6 +111,11 @@ def move_robots(robot_no, region_no):
                     if result:
                         rospy.loginfo("Goal execution done!")
                 x = x - hor_step
+            x = regions[region_no].start_x
+            result = movebase_robot(x, y, 0.0, 1.0, robot_no)
+            print (x,y)
+            if result:
+            	rospy.loginfo("Goal execution done!")
             y = y + ver_step
         robots[robot_no].state = 'free'
         regions[region_no].state = 'clean'
