@@ -85,7 +85,7 @@ def move_robots(robot_no, region_no):
 				break
                 if x >= regions[region_no].start_x and x <= regions[region_no].end_x and y >= regions[region_no].start_y and y <= regions[region_no].end_y and (not isObstacle):
                     result = movebase_robot(x, y, 1.0, 0.0, robot_no)
-		    print (x,y)
+		    print 'robot number :',robot_no,'is cleaning region number :',region_no
                     if result:
                         rospy.loginfo("Goal execution done!")
                 x = x+0.4
@@ -98,14 +98,13 @@ def move_robots(robot_no, region_no):
 				break
                 if x >= regions[region_no].start_x and x <= regions[region_no].end_x and y >= regions[region_no].start_y and y <= regions[region_no].end_y and (not isObstacle):
                     result =movebase_robot(x, y, 0.0, 1.0, robot_no)
-                    print (x,y)
+		    print 'robot number :',robot_no,'is cleaning region number :',region_no
                     if result:
                         rospy.loginfo("Goal execution done!")
                 x = x - 0.4
             y = y + 0.4
         robots[robot_no].state = 'free'
         regions[region_no].state = 'clean'
-        print('robot_no', robot_no, ' execution done! at ( ', x, ', ', y, ' )')
 
 def split_map():
     new = region('dirty', 0, 0.9, 0.9, 9.34, obstacles_y[0])
@@ -165,8 +164,7 @@ if __name__ == '__main__':
         					thread.start_new_thread( move_robots, (robots[j].number, regions[nearestRegion].number, ) )
         				else:
         					movebase_robot(1.0*robot_no, 1.0, 1.0, 0.0, robot_no)
-	   	for i in range(len(regions)):
-	   		print(regions[i].state)
+	   	
 	   except rospy.ROSInterruptException:
         	rospy.loginfo("Navigation test finished.")
 
