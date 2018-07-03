@@ -1,10 +1,10 @@
 # Multiple Robots in Stage
 
-This is a simulation of the navigation module on two robots, it simulates the system on RVIZ and Stage Robot Simulator.
+This is a simulation of the navigation module on three robots, it simulates the system on RVIZ and Stage Robot Simulator.
 
 ## How to run it:
 	
-To start with two robots call `roslaunch multiple_robots_stage robots_in_stage.launch`. This will set two robots in the map.
+To start with two robots call `roslaunch multiple_robots_stage robots_in_stage.launch`. This will set three robots in the map.
 
 To give a goal to robot_0 you can call:
 
@@ -13,6 +13,10 @@ To give a goal to robot_0 you can call:
 To give a goal to robot_1 you can call:
 
 `rostopic pub /robot_1/move_base_simple/goal geometry_msgs/PoseStamped '{header: {stamp: now, frame_id: "/map"}, pose: {position: {x: 6.0, y: 2.0, z: 0.0}, orientation: {w: 1.0}}}'`
+
+To give a goal to robot_2 you can call:
+
+`rostopic pub /robot_2/move_base_simple/goal geometry_msgs/PoseStamped '{header: {stamp: now, frame_id: "/map"}, pose: {position: {x: 6.0, y: 2.0, z: 0.0}, orientation: {w: 1.0}}}'`
 
 Alternatively you can run the two nodes `navigator` and `commander` to set goal points more easily:
 
